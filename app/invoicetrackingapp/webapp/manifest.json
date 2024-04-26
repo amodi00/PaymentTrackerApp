@@ -1,0 +1,148 @@
+{
+    "_version": "1.59.0",
+    "sap.app": {
+        "id": "invoicetrackingapp",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "0.0.1"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "resources": "resources.json",
+        "sourceTemplate": {
+            "id": "@sap/generator-fiori:lrop",
+            "version": "1.13.2",
+            "toolsId": "dc627e1b-531b-4149-9fef-0123d86a5734"
+        },
+        "dataSources": {
+            "mainService": {
+                "uri": "/odata/v4/invoice-management-srv/",
+                "type": "OData",
+                "settings": {
+                    "annotations": [],
+                    "odataVersion": "4.0"
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        }
+    },
+    "sap.ui5": {
+        "flexEnabled": true,
+        "dependencies": {
+            "minUI5Version": "1.120.0",
+            "libs": {
+                "sap.m": {},
+                "sap.ui.core": {},
+                "sap.ushell": {},
+                "sap.fe.templates": {}
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "settings": {
+                    "bundleName": "invoicetrackingapp.i18n.i18n"
+                }
+            },
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "synchronizationMode": "None",
+                    "operationMode": "Server",
+                    "autoExpandSelect": true,
+                    "earlyRequests": true
+                }
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            }
+        },
+        "resources": {
+            "css": []
+        },
+        "routing": {
+            "config": {},
+            "routes": [
+                {
+                    "pattern": ":?query:",
+                    "name": "InvoiceList",
+                    "target": "InvoiceList"
+                },
+                {
+                    "pattern": "Invoice({key}):?query:",
+                    "name": "InvoiceObjectPage",
+                    "target": "InvoiceObjectPage"
+                }
+            ],
+            "targets": {
+                "InvoiceList": {
+                    "type": "Component",
+                    "id": "InvoiceList",
+                    "name": "sap.fe.templates.ListReport",
+                    "options": {
+                        "settings": {
+                            "contextPath": "/Invoice",
+                            "variantManagement": "Page",
+                            "navigation": {
+                                "Invoice": {
+                                    "detail": {
+                                        "route": "InvoiceObjectPage"
+                                    }
+                                }
+                            },
+                            "views": {
+                                "paths": [
+                                    {
+                                        "key": "tab1",
+                                        "annotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#invoicesTable"
+                                    },
+                                    {
+                                        "key": "tab2",
+                                        "annotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#lineItemsTable"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "InvoiceObjectPage": {
+                    "type": "Component",
+                    "id": "InvoiceObjectPage",
+                    "name": "sap.fe.templates.ObjectPage",
+                    "options": {
+                        "settings": {
+                            "editableHeaderContent": false,
+                            "contextPath": "/Invoice"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": [],
+        "archeType": "transactional"
+    }
+}
